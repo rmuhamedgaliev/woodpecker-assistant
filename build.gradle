@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+
+    }
+}
+
+plugins {
+    id "org.springframework.boot" version "2.2.0.RELEASE"
+    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+    id "java"
+
+    id "application"
+}
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation "org.springframework.boot:spring-boot-starter-parent:2.2.0.RELEASE"
+    implementation "org.springframework.boot:spring-boot-starter:2.2.0.RELEASE"
+
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "com.google.guava:guava:28.0-jre"
+
+
+    implementation project(":youtrack-sdk")
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+}
+
+application {
+    // Define the main class for the application
+    mainClassName = "io.github.rmuhamedgaliev.woodpecker.App"
+}
+
+test {
+    // Use junit platform for unit tests
+    useJUnitPlatform()
+}
