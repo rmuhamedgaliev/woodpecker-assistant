@@ -1,75 +1,66 @@
 package io.github.rmuhamedgaliev.woodpecker;
 
-import com.google.gson.Gson;
-import io.github.woodpeckeryt.youtracksdk.issue.Issue;
+import io.github.rmuhamedgaliev.woodpecker.commands.YoutrackCommands;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 @Component
 public class HelloController extends TelegramLongPollingBot {
 
+    @Value("${app.telegram.token}")
+    private String token;
+
+    @Value("${app.telegram.name}")
+    private String name;
+
+    private final YoutrackCommands youtrackCommands;
+
     @Autowired
-    private YoutrackService youtrackService;
+    public HelloController(DefaultBotOptions defaultBotOptions, YoutrackCommands youtrackCommands) {
+        super(defaultBotOptions);
+        this.youtrackCommands = youtrackCommands;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
         String message = update.getMessage().getText();
 
+        String[] msg = message.split(" ");
 
-
+        String arg = msg[1 % msg.length];
 
 //        /token perm:cm11aGFtZWRnYWxpZXY=.NDctMA==.rj70ZJ7eklBifZPuEJXeO1z9Ul5My0
         if (
             update.getMessage().getChat().isGroupChat() == false
-            && message.startsWith("/token")
-        ) {
-            String token = message.split(" ")[1];
-
-            List<Issue> issues = youtrackService.getYouTrackIssues(token);
-
-            SendMessage snd = new SendMessage();
-            snd.setChatId(update.getMessage().getChatId());
-            snd.setText(new Gson().toJson(issues.get(0)));
+            && message.startsWith("/auth")) {
 
             try {
-                execute(snd);
-            } catch (TelegramApiException e) {
+
+                String token = message.split(" ")[1];
+
+                Method method = youtrackCommands.getClass().getMethod("auth", Update.class);
+                method.invoke(youtrackCommands, update);
+
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
-        } else if (update.getMessage().getChat().isGroupChat() && message.contains("/token")) {
-
-            String token = message.split(" ")[message.split(" ").length - 1];
-
-            List<Issue> issues = youtrackService.getYouTrackIssues(token);
-
-            SendMessage snd = new SendMessage();
-            snd.setChatId(update.getMessage().getChatId());
-            snd.setText(new Gson().toJson(issues.get(0)));
-
-            try {
-                execute(snd);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-
         }
-
-//        System.out.println(update);
     }
 
     @Override
     public String getBotUsername() {
-        return "youtrack_assistant_bot";
+        return name;
     }
 
     @Override
     public String getBotToken() {
-        return "954633967:AAE8ROwuCjs1LoFiVJOWFj2bnlsblW4v0kM";
+        return token;
     }
 }

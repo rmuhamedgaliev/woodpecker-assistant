@@ -3,17 +3,29 @@
  */
 package io.github.rmuhamedgaliev.woodpecker;
 
+import io.github.rmuhamedgaliev.woodpecker.commands.YoutrackCommands;
+import io.github.rmuhamedgaliev.woodpecker.repository.UserRepository;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.ApiContext;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 
 import javax.annotation.PostConstruct;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 
 @Log
 @SpringBootApplication
 public class App implements CommandLineRunner {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostConstruct
     public void init(){
@@ -21,12 +33,42 @@ public class App implements CommandLineRunner {
     }
 
     public static void main(String[] args) {
-
         SpringApplication.run(App.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
 
+    }
+
+    @Bean
+    public YoutrackCommands youtrackCommands() {
+        return new YoutrackCommands(defaultBotOptions(), userRepository);
+    }
+
+    @Bean
+    public DefaultBotOptions defaultBotOptions() {
+        // Create the Authenticator that will return auth's parameters for proxy authentication
+        Authenticator.setDefault(new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("wTES4wFx", "353734572".toCharArray());
+            }
+        });
+
+        ApiContextInitializer.init();
+
+        // Create the TelegramBotsApi object to register your bots
+        TelegramBotsApi botsApi = new TelegramBotsApi();
+
+        // Set up Http proxy
+        DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+
+        botOptions.setProxyHost("127.0.0.1");
+        botOptions.setProxyPort(1080);
+        // Select proxy type: [HTTP|SOCKS4|SOCKS5] (default: NO_PROXY)
+        botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
+
+        return botOptions;
     }
 }

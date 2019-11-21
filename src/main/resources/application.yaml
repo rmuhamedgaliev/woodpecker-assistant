@@ -1,3 +1,15 @@
+app:
+  telegram:
+    token: 954633967:AAE8ROwuCjs1LoFiVJOWFj2bnlsblW4v0kM
+    name: youtrack_assistant_bot
 spring:
   main:
     web-application-type: none
+  datasource:
+    name: h2
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./yourdbname
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
