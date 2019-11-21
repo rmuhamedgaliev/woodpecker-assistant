@@ -21,4 +21,16 @@ public class User {
         this.name = name;
         this.youtrackToken = youtrackToken;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setYoutrackToken(String youtrackToken) {
+        this.youtrackToken = youtrackToken;
+    }
 }

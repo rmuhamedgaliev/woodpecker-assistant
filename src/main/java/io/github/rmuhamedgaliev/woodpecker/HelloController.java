@@ -37,21 +37,21 @@ public class HelloController extends TelegramLongPollingBot {
         String arg = msg[1 % msg.length];
 
 //        /token perm:cm11aGFtZWRnYWxpZXY=.NDctMA==.rj70ZJ7eklBifZPuEJXeO1z9Ul5My0
-        if (
-            update.getMessage().getChat().isGroupChat() == false
-            && message.startsWith("/auth")) {
+//        if (
+//            update.getMessage().getChat().isGroupChat() == false
+//            && message.startsWith("/auth")) {
 
             try {
 
-                String token = message.split(" ")[1];
+                String methodName = message.split(" ")[0].replaceAll("/", "");
 
-                Method method = youtrackCommands.getClass().getMethod("auth", Update.class);
+                Method method = youtrackCommands.getClass().getMethod(methodName, Update.class);
                 method.invoke(youtrackCommands, update);
 
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
-        }
+//        }
     }
 
     @Override
