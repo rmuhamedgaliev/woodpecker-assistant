@@ -17,8 +17,6 @@ import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 
 import javax.annotation.PostConstruct;
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
 
 @Log
 @SpringBootApplication
@@ -48,25 +46,16 @@ public class App implements CommandLineRunner {
 
     @Bean
     public DefaultBotOptions defaultBotOptions() {
-        // Create the Authenticator that will return auth's parameters for proxy authentication
-        Authenticator.setDefault(new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("wTES4wFx", "353734572".toCharArray());
-            }
-        });
+
 
         ApiContextInitializer.init();
 
-        // Create the TelegramBotsApi object to register your bots
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
-        // Set up Http proxy
         DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
 
         botOptions.setProxyHost("127.0.0.1");
         botOptions.setProxyPort(1080);
-        // Select proxy type: [HTTP|SOCKS4|SOCKS5] (default: NO_PROXY)
         botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
 
         return botOptions;
