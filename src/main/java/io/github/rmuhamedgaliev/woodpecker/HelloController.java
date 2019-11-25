@@ -14,13 +14,11 @@ import java.lang.reflect.Method;
 @Component
 public class HelloController extends TelegramLongPollingBot {
 
+    private final YoutrackCommands youtrackCommands;
     @Value("${app.telegram.token}")
     private String token;
-
     @Value("${app.telegram.name}")
     private String name;
-
-    private final YoutrackCommands youtrackCommands;
 
     @Autowired
     public HelloController(DefaultBotOptions defaultBotOptions, YoutrackCommands youtrackCommands) {
@@ -36,21 +34,16 @@ public class HelloController extends TelegramLongPollingBot {
 
         String arg = msg[1 % msg.length];
 
-//        /token perm:cm11aGFtZWRnYWxpZXY=.NDctMA==.rj70ZJ7eklBifZPuEJXeO1z9Ul5My0
-//        if (
-//            update.getMessage().getChat().isGroupChat() == false
-//            && message.startsWith("/auth")) {
+        try {
 
-            try {
+            String methodName = message.split(" ")[0].replaceAll("/", "");
 
-                String methodName = message.split(" ")[0].replaceAll("/", "");
+            Method method = youtrackCommands.getClass().getMethod(methodName, Update.class);
+            method.invoke(youtrackCommands, update);
 
-                Method method = youtrackCommands.getClass().getMethod(methodName, Update.class);
-                method.invoke(youtrackCommands, update);
-
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
 //        }
     }
 

@@ -15,11 +15,9 @@ import java.util.Optional;
 
 public class YoutrackCommands extends DefaultAbsSender {
 
+    private final UserRepository userRepository;
     @Value("${app.telegram.token}")
     private String token;
-
-    private final UserRepository userRepository;
-
     @Autowired
     private YoutrackUserRepository youtrackUserRepository;
 
@@ -46,7 +44,7 @@ public class YoutrackCommands extends DefaultAbsSender {
             User user = new User(id, name, token);
             user = this.userRepository.save(user);
             io.github.woodpeckeryt.youtracksdk.user.User youtrackUser = this.youtrackUserRepository.getMe();
-            snd.setText("Success auth YouTrack user with login "+ youtrackUser.getLogin());
+            snd.setText("Success auth YouTrack user with login " + youtrackUser.getLogin());
         }
 
         execute(snd);
@@ -71,7 +69,7 @@ public class YoutrackCommands extends DefaultAbsSender {
             this.userRepository.save(userFromDB.get());
             userFromDB = userRepository.findById(id);
             io.github.woodpeckeryt.youtracksdk.user.User youtrackUser = this.youtrackUserRepository.getMe();
-            snd.setText("Success auth YouTrack user with login "+ youtrackUser.getLogin());
+            snd.setText("Success auth YouTrack user with login " + youtrackUser.getLogin());
         } else {
             snd.setText("Do you want change token? please use /updAuth");
         }

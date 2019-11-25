@@ -27,13 +27,13 @@ public class App implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
-    @PostConstruct
-    public void init(){
-        ApiContextInitializer.init();
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
+    }
+
+    @PostConstruct
+    public void init() {
+        ApiContextInitializer.init();
     }
 
     @Override

@@ -11,8 +11,8 @@ public class YoutrackUserRepository {
     private final UserService userService;
 
     public YoutrackUserRepository() {
-        String token = "perm:cmluYXQubXVoYW1lZGdhbGlldg==.RA==.iBh1e8T0vHTq6Vb5UHzhAzy10jfXvg";
-        String host = "https://youtrack.citronium.com";
+        String token = "perm:cm11aGFtZWRnYWxpZXY=.NDctMQ==.1qVa7BLDcJFj6X0ppESbzLbX3h2bcA";
+        String host = "https://woodpeckeryt.myjetbrains.com/youtrack";
         String projectId = "72d91e0c-9712-4063-8ad8-1fddbea33a6f";
 
         YouTrack youTrack = new YouTrack(token, host, projectId);
