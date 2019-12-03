@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class YoutrackUserRepository {
 
+
+
     private final UserService userService;
 
     public YoutrackUserRepository() {
