@@ -87,6 +87,7 @@ public class YoutrackCommands extends DefaultAbsSender {
         SendMessage snd = new SendMessage();
         snd.setChatId(update.getMessage().getChatId());
 
+
     }
 
 }
