@@ -81,4 +81,11 @@ public class YoutrackCommands extends DefaultAbsSender {
     public String getBotToken() {
         return token;
     }
+
+    public void checkAccExist(Update update) throws TelegramApiException {
+
+
+
+    }
+
 }
