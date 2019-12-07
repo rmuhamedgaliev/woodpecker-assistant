@@ -84,7 +84,8 @@ public class YoutrackCommands extends DefaultAbsSender {
 
     public void checkAccExist(Update update) throws TelegramApiException {
 
-
+        SendMessage snd = new SendMessage();
+        snd.setChatId(update.getMessage().getChatId());
 
     }
 
