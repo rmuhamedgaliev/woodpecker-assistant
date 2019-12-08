@@ -97,21 +97,22 @@ public class YoutrackCommands extends DefaultAbsSender {
         Optional<User> userFromDB = userRepository.findById(id);
 
         if (userFromDB.isPresent()) {
-            List<User> userPresentedInDB = userFromDB
-                    .stream()
-                    .filter(user -> user.getId()==id)
-                    .collect(Collectors.toList());
+            System.out.println("User presented in DB");
+//            List<User> userPresentedInDB = userFromDB
+//                    .stream()
+//                    .filter(user -> user.getId()==id)
+//                    .collect(Collectors.toList());
 
-            if(userPresentedInDB.isEmpty()) {
-                System.out.println("User presented in DB");
-            } else {
-                System.out.println("User not presented in DB");
-            }
+//            if(userPresentedInDB.isEmpty()) {
+//                System.out.println("User presented in DB");
+//            } else {
+//                System.out.println("User not presented in DB");
+//            }
 
         } else {
-            System.out.println("User not presented in DBgffg");
+            System.out.println("User not presented in Database");
         }
-        //why
+
         execute(snd);
 
     }
