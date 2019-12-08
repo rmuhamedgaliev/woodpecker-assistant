@@ -86,7 +86,6 @@ public class YoutrackCommands extends DefaultAbsSender {
 
     public void checkAccExist(Update update) throws TelegramApiException {
 
-        System.out.println("Check method is working now ");
         SendMessage snd = new SendMessage();
         snd.setChatId(update.getMessage().getChatId());
 
@@ -98,23 +97,26 @@ public class YoutrackCommands extends DefaultAbsSender {
 
         if (userFromDB.isPresent()) {
             System.out.println("User presented in DB");
-//            List<User> userPresentedInDB = userFromDB
-//                    .stream()
-//                    .filter(user -> user.getId()==id)
-//                    .collect(Collectors.toList());
+            List<User> userPresentedInDB = userFromDB
+                    .stream()
+                   // .filter(user -> user.getName()==name)
+                    .filter(user -> user.getId()==id)
+                   // .filter(user -> user.getName()==name)
+                    .collect(Collectors.toList());
 
-//            if(userPresentedInDB.isEmpty()) {
-//                System.out.println("User presented in DB");
-//            } else {
-//                System.out.println("User not presented in DB");
-//            }
+
+            if(userPresentedInDB.isEmpty()) {
+                System.out.println("User not presented in DB!");
+            } else {
+                System.out.println("User presented in DB!");
+                userPresentedInDB.forEach(System.out::println);
+            }
 
         } else {
             System.out.println("User not presented in Database");
         }
 
         execute(snd);
-
     }
 
 }
