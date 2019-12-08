@@ -11,7 +11,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class YoutrackCommands extends DefaultAbsSender {
 
@@ -84,9 +86,33 @@ public class YoutrackCommands extends DefaultAbsSender {
 
     public void checkAccExist(Update update) throws TelegramApiException {
 
+        System.out.println("Check method is working now ");
         SendMessage snd = new SendMessage();
         snd.setChatId(update.getMessage().getChatId());
 
+        Long id = Long.valueOf(update.getMessage().getFrom().getId());
+        String name = update.getMessage().getFrom().getFirstName();
+        String token = CommandHelper.getCommandMessageContent(update.getMessage().getText());
+
+        Optional<User> userFromDB = userRepository.findById(id);
+
+        if (userFromDB.isPresent()) {
+            List<User> userPresentedInDB = userFromDB
+                    .stream()
+                    .filter(user -> user.getId()==id)
+                    .collect(Collectors.toList());
+
+            if(userPresentedInDB.isEmpty()) {
+                System.out.println("User presented in DB");
+            } else {
+                System.out.println("User not presented in DB");
+            }
+
+        } else {
+            System.out.println("User not presented in DBgffg");
+        }
+        //why
+        execute(snd);
 
     }
 
