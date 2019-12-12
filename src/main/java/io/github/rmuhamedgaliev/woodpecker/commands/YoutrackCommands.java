@@ -11,9 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class YoutrackCommands extends DefaultAbsSender {
 
@@ -123,7 +121,7 @@ public class YoutrackCommands extends DefaultAbsSender {
 
         if (userFromDB.isPresent()) {
 
-            if(userFromDB.get().getName().equals(name) && userFromDB.get().getId() == id){
+            if(userFromDB.get().getName().equals(name) && userFromDB.get().getId().equals(id)){
                     System.out.println("true - user present in database");
                 } else {
                     System.out.println("false - user is not presented in database");

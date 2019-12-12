@@ -54,9 +54,9 @@ public class App implements CommandLineRunner {
 
         DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
 
-//        botOptions.setProxyHost("127.0.0.1");
-//        botOptions.setProxyPort(1080);
-//        botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
+        botOptions.setProxyHost("127.0.0.1");
+        botOptions.setProxyPort(1080);
+        botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
 
         return botOptions;
 

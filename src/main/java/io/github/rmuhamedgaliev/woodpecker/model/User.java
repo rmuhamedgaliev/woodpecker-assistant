@@ -34,7 +34,6 @@ public class User {
         this.youtrackToken = youtrackToken;
     }
 
-    //added Getters for user
     public Long getId() { return id; }
 
     public String getName() { return name; }
