@@ -6,7 +6,7 @@ spring:
   main:
     web-application-type: none
   datasource:
-    name: h2
+    name: sqlite
     driver-class-name: org.sqlite.JDBC
     url: jdbc:sqlite:file:wa
   jpa:

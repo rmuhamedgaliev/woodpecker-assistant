@@ -4,10 +4,11 @@ import lombok.Getter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.security.Principal;
 
 @Entity
 @Getter
-public class User {
+public class User implements Principal {
     @Id
     private Long id;
     private String name;
@@ -39,13 +40,4 @@ public class User {
     public String getName() { return name; }
 
     public String getYoutrackToken() { return youtrackToken; }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", youtrackToken='" + youtrackToken + '\'' +
-                '}';
-    }
 }

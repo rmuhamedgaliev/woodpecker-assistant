@@ -1,14 +1,16 @@
 package io.github.rmuhamedgaliev.woodpecker.commands;
 
+import io.github.rmuhamedgaliev.woodpecker.core.message.TelegramMessage;
 import io.github.rmuhamedgaliev.woodpecker.model.User;
 import io.github.rmuhamedgaliev.woodpecker.repository.UserRepository;
 import io.github.rmuhamedgaliev.woodpecker.repository.YoutrackUserRepository;
+import io.github.rmuhamedgaliev.woodpecker.security.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.Optional;
@@ -27,21 +29,17 @@ public class YoutrackCommands extends DefaultAbsSender {
         this.userRepository = userRepository;
     }
 
-    public void auth(Update update) throws TelegramApiException {
+    public void auth(TelegramMessage telegramMessage) throws TelegramApiException {
 
         SendMessage snd = new SendMessage();
-        snd.setChatId(update.getMessage().getChatId());
+        snd.setChatId(telegramMessage.getChatId());
 
-        Long id = Long.valueOf(update.getMessage().getFrom().getId());
-        String name = update.getMessage().getFrom().getFirstName();
-        String token = CommandHelper.getCommandMessageContent(update.getMessage().getText());
-
-        Optional<User> userFromDB = userRepository.findById(id);
+        Optional<User> userFromDB = userRepository.findById(telegramMessage.getSenderId());
 
         if (userFromDB.isPresent()) {
             snd.setText("Do you want change token? please use /updAuth");
         } else {
-            User user = new User(id, name, token);
+            User user = new User(telegramMessage.getSenderId(), telegramMessage.getSenderName(), token);
             user = this.userRepository.save(user);
             io.github.woodpeckeryt.youtracksdk.user.User youtrackUser = this.youtrackUserRepository.getMe();
             snd.setText("Success auth YouTrack user with login " + youtrackUser.getLogin());
@@ -50,88 +48,33 @@ public class YoutrackCommands extends DefaultAbsSender {
         execute(snd);
     }
 
-    public void updAuth(Update update) throws TelegramApiException {
+    @Auth
+    public void updAuth(TelegramMessage telegramMessage) throws TelegramApiException {
 
         SendMessage snd = new SendMessage();
-        snd.setChatId(update.getMessage().getChatId());
+        snd.setChatId(telegramMessage.getChatId());
 
-        Long id = Long.valueOf(update.getMessage().getFrom().getId());
-        String name = update.getMessage().getFrom().getFirstName();
-        String token = CommandHelper.getCommandMessageContent(update.getMessage().getText());
+        User userFromDB = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Optional<User> userFromDB = userRepository.findById(id);
+        userFromDB.setId(telegramMessage.getSenderId());
+        userFromDB.setName(telegramMessage.getSenderName());
+        userFromDB.setYoutrackToken(token);
 
-        if (userFromDB.isPresent()) {
-            userFromDB.get().setId(id);
-            userFromDB.get().setName(name);
-            userFromDB.get().setYoutrackToken(token);
-
-            this.userRepository.save(userFromDB.get());
-            userFromDB = userRepository.findById(id);
-            io.github.woodpeckeryt.youtracksdk.user.User youtrackUser = this.youtrackUserRepository.getMe();
-            snd.setText("Success auth YouTrack user with login " + youtrackUser.getLogin());
-        } else {
-            snd.setText("Do you want change token? please use /updAuth");
-        }
-
+        this.userRepository.save(userFromDB);
+        io.github.woodpeckeryt.youtracksdk.user.User youtrackUser = this.youtrackUserRepository.getMe();
+        snd.setText("Success auth YouTrack user with login " + youtrackUser.getLogin());
         execute(snd);
     }
 
-    public void newIssue(Update update) throws TelegramApiException {
+    @Auth
+    public void newIssue(TelegramMessage telegramMessage) throws TelegramApiException {
 
-        SendMessage snd = new SendMessage();
-        snd.setChatId(update.getMessage().getChatId());
-
-        Long id = Long.valueOf(update.getMessage().getFrom().getId());
-        String name = update.getMessage().getFrom().getFirstName();
-        String token = CommandHelper.getCommandMessageContent(update.getMessage().getText());
-
-        Optional<User> userFromDB = userRepository.findById(id);
-
-        if (userFromDB.isPresent()) {
-            userFromDB.get().setId(id);
-            userFromDB.get().setName(name);
-            userFromDB.get().setYoutrackToken(token);
-
-            this.userRepository.save(userFromDB.get());
-            userFromDB = userRepository.findById(id);
-            io.github.woodpeckeryt.youtracksdk.user.User youtrackUser = this.youtrackUserRepository.getMe();
-            snd.setText("Success auth YouTrack user with login " + youtrackUser.getLogin());
-        } else {
-            snd.setText("Do you want change token? please use /updAuth");
-        }
-
-        execute(snd);
+        execute(telegramMessage.sendResponse(telegramMessage.getMessage()));
     }
 
     @Override
     public String getBotToken() {
         return token;
-    }
-
-    public void checkAccExist(Update update) throws TelegramApiException {
-
-        SendMessage snd = new SendMessage();
-        snd.setChatId(update.getMessage().getChatId());
-
-        Long id = Long.valueOf(update.getMessage().getFrom().getId());
-        String name = update.getMessage().getFrom().getFirstName();
-
-        Optional<User> userFromDB = userRepository.findById(id);
-
-        if (userFromDB.isPresent()) {
-
-            if(userFromDB.get().getName().equals(name) && userFromDB.get().getId().equals(id)){
-                    System.out.println("true - user present in database");
-                } else {
-                    System.out.println("false - user is not presented in database");
-                }
-            } else {
-                System.out.println("User is not presented in DB!");
-
-            }
-
-        execute(snd);
     }
 
 }

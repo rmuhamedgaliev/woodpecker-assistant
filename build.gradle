@@ -38,6 +38,9 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter:2.2.0.RELEASE"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa:2.2.0.RELEASE"
 
+    implementation "org.springframework.security:spring-security-web:5.2.1.RELEASE"
+    implementation "org.springframework.security:spring-security-config:5.2.1.RELEASE"
+
     implementation "org.xerial:sqlite-jdbc:3.28.0"
     implementation "com.github.gwenn:sqlite-dialect:0.1.0"
 

@@ -1,8 +1,6 @@
 package io.github.rmuhamedgaliev.woodpecker.service;
 
-import org.springframework.stereotype.Service;
+public interface YoutrackService {
 
-@Service
-public class YoutrackService {
-
+    void checkTelegramUserHasYoutrackAccount(Integer telegramUserId);
 }
