@@ -1,17 +1,26 @@
 package io.github.rmuhamedgaliev.woodpecker;
 
+import io.github.rmuhamedgaliev.woodpecker.commands.CommandHelper;
 import io.github.rmuhamedgaliev.woodpecker.commands.YoutrackCommands;
+import io.github.rmuhamedgaliev.woodpecker.model.User;
+import io.github.rmuhamedgaliev.woodpecker.repository.UserRepository;
+import io.github.rmuhamedgaliev.woodpecker.repository.YoutrackUserRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 @Log
 @Component
@@ -58,4 +67,8 @@ public class HelloController extends TelegramLongPollingBot {
     public String getBotToken() {
         return token;
     }
+
+
+
+
 }

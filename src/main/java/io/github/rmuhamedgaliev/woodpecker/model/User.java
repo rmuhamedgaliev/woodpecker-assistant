@@ -33,4 +33,20 @@ public class User {
     public void setYoutrackToken(String youtrackToken) {
         this.youtrackToken = youtrackToken;
     }
+
+    //added Getters for user
+    public Long getId() { return id; }
+
+    public String getName() { return name; }
+
+    public String getYoutrackToken() { return youtrackToken; }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", youtrackToken='" + youtrackToken + '\'' +
+                '}';
+    }
 }
