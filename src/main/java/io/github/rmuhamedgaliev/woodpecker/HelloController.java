@@ -33,10 +33,6 @@ public class HelloController extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         String message = update.getMessage().getText();
 
-        String[] msg = message.split(" ");
-
-        String arg = msg[1 % msg.length];
-
         try {
 
             String methodName = message.split(" ")[0].replaceAll("/", "");

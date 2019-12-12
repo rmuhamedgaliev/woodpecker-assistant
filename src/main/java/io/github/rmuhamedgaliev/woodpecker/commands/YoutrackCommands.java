@@ -77,6 +77,33 @@ public class YoutrackCommands extends DefaultAbsSender {
         execute(snd);
     }
 
+    public void newIssue(Update update) throws TelegramApiException {
+
+        SendMessage snd = new SendMessage();
+        snd.setChatId(update.getMessage().getChatId());
+
+        Long id = Long.valueOf(update.getMessage().getFrom().getId());
+        String name = update.getMessage().getFrom().getFirstName();
+        String token = CommandHelper.getCommandMessageContent(update.getMessage().getText());
+
+        Optional<User> userFromDB = userRepository.findById(id);
+
+        if (userFromDB.isPresent()) {
+            userFromDB.get().setId(id);
+            userFromDB.get().setName(name);
+            userFromDB.get().setYoutrackToken(token);
+
+            this.userRepository.save(userFromDB.get());
+            userFromDB = userRepository.findById(id);
+            io.github.woodpeckeryt.youtracksdk.user.User youtrackUser = this.youtrackUserRepository.getMe();
+            snd.setText("Success auth YouTrack user with login " + youtrackUser.getLogin());
+        } else {
+            snd.setText("Do you want change token? please use /updAuth");
+        }
+
+        execute(snd);
+    }
+
     @Override
     public String getBotToken() {
         return token;
