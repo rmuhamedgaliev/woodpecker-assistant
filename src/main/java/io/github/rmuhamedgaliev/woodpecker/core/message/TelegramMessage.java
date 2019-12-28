@@ -7,10 +7,10 @@ public class TelegramMessage implements Message {
     private final Long senderId;
     private final String senderName;
     private final String message;
-    private final Long chatId;
+    private final Integer chatId;
     private final User user;
 
-    public TelegramMessage(Integer senderId, String senderName, String message, Long chatId, User user) {
+    public TelegramMessage(Integer senderId, String senderName, String message, Integer chatId, User user) {
         this.senderId = Long.valueOf(senderId);
         this.senderName = senderName;
         this.message = message;
@@ -30,13 +30,13 @@ public class TelegramMessage implements Message {
         return message;
     }
 
-    public Long getChatId() {
+    public Integer getChatId() {
         return chatId;
     }
 
     public SendMessage sendResponse(String message) {
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(this.chatId);
+        sendMessage.setChatId(this.chatId.toString());
         sendMessage.setText(message);
         return sendMessage;
     }

@@ -63,7 +63,7 @@ public class TelegramController extends TelegramLongPollingBot {
                 update.getMessage().getFrom().getId(),
                 update.getMessage().getFrom().getFirstName(),
                 CommandHelper.getCommandMessageContent(update.getMessage().getText()),
-                update.getMessage().getChatId(),
+                Integer.valueOf(String.valueOf(update.getMessage().getChatId())),
                 user);
 
             if (method.isAnnotationPresent(Auth.class)) {
