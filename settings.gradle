@@ -1,4 +1,5 @@
 rootProject.name = "woodpecker-assistant"
 
 include("youtrack-sdk")
-project(":youtrack-sdk").projectDir = new File("/Users/rmuhamedgaliev/Projects/youtrack-sdk")
+project(":youtrack-sdk").projectDir = new File("./youtrack-sdk")
+

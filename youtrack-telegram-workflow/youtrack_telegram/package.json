@@ -1,0 +1,12 @@
+{
+  "name": "youtrack_telegram",
+  "title": "YoutrackToTelegram",
+  "description": null,
+  "dependencies": {
+    "@jetbrains/youtrack-scripting-api": "^2019.2.61843"
+  },
+  "youtrack": {
+    "autoAttached": false,
+    "readOnly": false
+  }
+}

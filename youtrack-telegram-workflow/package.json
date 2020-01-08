@@ -1,0 +1,16 @@
+{
+  "name": "youtrack-workflows",
+  "version": "1.0.0",
+  "description": "Custom workflows for my YouTrack installation",
+  "scripts": {
+    "list-prod": "cross-env youtrack-workflow list --host=$npm_config_host_prod --token=$npm_config_token_prod",
+    "download-prod": "cross-env youtrack-workflow download --host=$npm_config_host_prod --token=$npm_config_token_prod",
+    "upload-prod": "cross-env youtrack-workflow upload --host=$npm_config_host_prod --token=$npm_config_token_prod"
+  },
+  "author": "Rinat Muhamedgaliev <rinat.muhamedgaliev@citronium.com>",
+  "devDependencies": {
+    "@jetbrains/youtrack-scripting": "0.0.23",
+    "@jetbrains/youtrack-scripting-api": "^2019.3.62414",
+    "cross-env": "^6.0.3"
+  }
+}
