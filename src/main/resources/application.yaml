@@ -12,7 +12,7 @@ spring:
   datasource:
     name: sqlite
     driver-class-name: org.sqlite.JDBC
-    url: jdbc:sqlite:file:wa
+    url: jdbc:sqlite:file:/tmp/wa
   jpa:
     hibernate:
       ddl-auto: update

@@ -20,6 +20,8 @@ import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 
 import javax.annotation.PostConstruct;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 
 @Log
 @SpringBootApplication
@@ -59,6 +61,12 @@ public class App implements CommandLineRunner {
     @Bean
     public DefaultBotOptions defaultBotOptions() {
 
+        Authenticator.setDefault(new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("Citronium", "CitroniumTheBest".toCharArray());
+            }
+        });
 
         ApiContextInitializer.init();
 
@@ -66,7 +74,7 @@ public class App implements CommandLineRunner {
 
         DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
 
-        botOptions.setProxyHost("127.0.0.1");
+        botOptions.setProxyHost("psrv5.citronium.com");
         botOptions.setProxyPort(1080);
         botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
 
