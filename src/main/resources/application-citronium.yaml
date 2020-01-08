@@ -1,0 +1,19 @@
+app:
+  telegram:
+    token: 954633967:AAE8ROwuCjs1LoFiVJOWFj2bnlsblW4v0kM
+    name: youtrack_assistant_bot
+  youtrack:
+    token: perm:YWRtaW4=.NDMtMA==.2r9IttPSUnAs1f5bolRWX8jZTA8qO4
+    host: http://localhost:8080
+spring:
+  main:
+    web-application-type: none
+  datasource:
+    name: sqlite
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:file:wa
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.SQLiteDialect
+    show-sql: true

@@ -5,8 +5,11 @@ package io.github.rmuhamedgaliev.woodpecker;
 
 import io.github.rmuhamedgaliev.woodpecker.commands.YoutrackCommands;
 import io.github.rmuhamedgaliev.woodpecker.repository.UserRepository;
+import io.github.rmuhamedgaliev.woodpecker.repository.YoutrackIssueRepository;
+import io.github.woodpeckeryt.youtracksdk.entities.YouTrack;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,9 +28,18 @@ public class App implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
+    @Value("${app.youtrack.host}")
+    private String youtrackHost;
+
+    @Value("${app.youtrack.token}")
+    private String youtrackToken;
+
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
+
+    @Autowired
+    private YoutrackIssueRepository youtrackIssueRepository;
 
     @PostConstruct
     public void init() {
@@ -59,5 +71,14 @@ public class App implements CommandLineRunner {
         botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
 
         return botOptions;
+
     }
+
+    @Bean
+    public YouTrack youTrack() {
+        return new YouTrack(youtrackToken, youtrackHost);
+    }
+
+
+
 }

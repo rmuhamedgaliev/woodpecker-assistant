@@ -4,10 +4,11 @@ import lombok.Getter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.security.Principal;
 
 @Entity
 @Getter
-public class User {
+public class User implements Principal {
     @Id
     private Long id;
     private String name;
@@ -33,4 +34,10 @@ public class User {
     public void setYoutrackToken(String youtrackToken) {
         this.youtrackToken = youtrackToken;
     }
+
+    public Long getId() { return id; }
+
+    public String getName() { return name; }
+
+    public String getYoutrackToken() { return youtrackToken; }
 }
