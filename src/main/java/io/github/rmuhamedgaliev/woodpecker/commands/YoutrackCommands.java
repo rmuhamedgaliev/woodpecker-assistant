@@ -96,16 +96,14 @@ public class YoutrackCommands extends DefaultAbsSender {
         );
 
         IssueCreateDTO issueCreateDTO = new IssueCreateDTO(
-            "summary",
-            "description",
+            telegramMessage.getMessage(),
+            "",
             issueCreateProjectDTO,
             customFieldDTOS
         );
 
         Issue issue = youtrackIssueRepository.createIssue(issueCreateDTO);
-
-        System.out.println("11");
-
+        
         execute(telegramMessage.sendResponse(issue.getSummary()));
     }
 
