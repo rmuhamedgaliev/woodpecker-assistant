@@ -43,6 +43,10 @@ public class YoutrackCommands extends DefaultAbsSender {
         this.userRepository = userRepository;
     }
 
+    public void echo(TelegramMessage telegramMessage) throws TelegramApiException {
+        execute(telegramMessage.sendResponse(telegramMessage.getMessage()));
+    }
+
     public void auth(TelegramMessage telegramMessage) throws TelegramApiException {
 
         SendMessage snd = new SendMessage();
@@ -103,7 +107,7 @@ public class YoutrackCommands extends DefaultAbsSender {
         );
 
         Issue issue = youtrackIssueRepository.createIssue(issueCreateDTO);
-        
+
         execute(telegramMessage.sendResponse(issue.getSummary()));
     }
 
