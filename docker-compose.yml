@@ -3,4 +3,6 @@ services:
   assistant:
     build: .
     image: io.github.rmuhamedgaliev.woodpecker-assistant:latest
+    environment:
+      - "SPRING_PROFILES_ACTIVE=citronium"
 
