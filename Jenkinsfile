@@ -59,13 +59,14 @@
                 steps {
                     sh "mv src/main/resources/application-citronium.yaml src/main/resources/application.yaml"
                     sh "cat src/main/resources/application.yaml"
-                    sh "gradle build"
+                    sh "./gradlew build"
                 }
             }
 
             stage("Up on staging") {
                 steps {
                     script {
+                        sh "docker-compose build"
                         sh "docker-compose -p wa -f docker-compose.yml up -d"
                     }
                 }
