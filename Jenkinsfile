@@ -22,7 +22,7 @@ pipeline {
                         $class : "GitSCM",
                         branches : [
                             [
-                                name: "${SELECTED_BRANCH.BRANCH_NAME}"
+                                name: "develop"
                             ]
                         ],
                         doGenerateSubmoduleConfigurations: false,
@@ -38,8 +38,8 @@ pipeline {
                         submoduleCfg : [],
                         userRemoteConfigs : [
                             [
-                                credentialsId: "citronium-rm-github",
-                                url : "https://github.com/rmuhamedgaliev/woodpecker-assistant.git"
+                                credentialsId: "rm-github-jenkins",
+                                url : "git@github.com:rmuhamedgaliev/woodpecker-assistant.git"
                             ]
                         ]
                     ]
@@ -50,7 +50,7 @@ pipeline {
         stage("Build jar") {
             agent {
                 docker {
-                    image "gradle:latest"
+                    image "gradle:jdk13"
                     args "-v ${PWD}:/usr/src/app -w /usr/src/app"
                     reuseNode true
                     label "build-image"
@@ -58,6 +58,14 @@ pipeline {
             }
             steps {
                 sh "gradle build"
+            }
+        }
+
+        stage("Up on staging") {
+            steps {
+                script {
+                    sh "docker-compose -p wa -f docker-compose.yml up -d"
+                }
             }
         }
 
