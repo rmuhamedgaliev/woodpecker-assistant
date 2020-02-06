@@ -1,0 +1,66 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    api 'org.apache.commons:commons-math3:3.6.1'
+
+    implementation 'com.google.http-client:google-http-client:1.32.1'
+    implementation 'com.google.http-client:google-http-client-gson:1.32.1'
+
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.10'
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.guava:guava:28.1-jre'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+group 'io.github.rmuhamedgaliev'
+archivesBaseName = 'youtrack-sdk'
+version = generateVersionCode()
+
+def static generateVersionCode() {
+    def lastTagRev = "git rev-list --tags --max-count=1".execute().text.trim()
+    def lastTag = "git describe ${lastTagRev}".execute().text.trim()
+    def shortRev = "git rev-parse --short HEAD".execute().text.trim()
+    def gitBranchName = "git rev-parse --abbrev-ref HEAD".execute().text.trim()
+    def branchName = System.getenv("BRANCH_NAME") ?: gitBranchName
+    def isSnapshot = branchName.equalsIgnoreCase('master')
+
+    def version = "${lastTag}"
+    if (!isSnapshot) {
+        version = "${version}-SNAPSHOT"
+    }
+    return version
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/WoodpeckerYT/youtrack-sdk")
+            credentials {
+                username = findProperty("gprUser") ?: System.getenv("USERNAME")
+                password = findProperty("gprKey") ?: System.getenv("PASSWORD")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
