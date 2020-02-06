@@ -3,9 +3,9 @@ app:
     token: 1050558739:AAEBT5CyU7wb-SBrT4WJ9-76QHy3ul8T7u4
     name: citronium_assistant_bot
   youtrack:
-    token: perm:YWRtaW4=.NDMtMA==.2r9IttPSUnAs1f5bolRWX8jZTA8qO4
-    host: http://localhost:8080
-    infra-project: 0-0
+    token: perm:cmluYXQubXVoYW1lZGdhbGlldg==.NjAtMTM=.tZxXZ4ZsDizNzoLvl0tRmz2BJJ63V7
+    host: https://youtrack.citronium.com
+    infra-project: 69-83
 spring:
   main:
     web-application-type: none

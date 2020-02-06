@@ -59,7 +59,7 @@
                 steps {
                     sh "mv src/main/resources/application-citronium.yaml src/main/resources/application.yaml"
                     sh "cat src/main/resources/application.yaml"
-                    sh "./gradlew build"
+                    sh "gradle build"
                 }
             }
 
