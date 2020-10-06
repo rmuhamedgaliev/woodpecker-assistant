@@ -1,10 +1,10 @@
 app:
   telegram:
-    token: 954633967:AAE8ROwuCjs1LoFiVJOWFj2bnlsblW4v0kM
+    token: 
     name: youtrack_assistant_bot
   youtrack:
-    token: perm:cm11aGFtZWRnYWxpZXY=.NDctNA==.CfH74i0pzhHdpRq2FZr8TGIckij5tJ
-    host: https://woodpeckeryt.myjetbrains.com/youtrack
+    token: 
+    host: 
     infra-project: 0-0
 spring:
   main:
